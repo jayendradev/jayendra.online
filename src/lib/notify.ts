@@ -134,34 +134,58 @@ function friendlySmtpError(message: string) {
   return message;
 }
 
+function friendlyEmailError(message: string) {
+  if (message.includes("only send testing emails to your own email address")) {
+    return "We could not send a code to this email yet. Please use the site owner email for now, or try again after domain email is fully set up.";
+  }
+  if (message.startsWith("No email provider available (")) {
+    const inner = message.slice("No email provider available (".length, -1);
+    return friendlyEmailError(inner.split(";")[0]?.trim() ?? message);
+  }
+  return friendlySmtpError(message);
+}
+
 async function sendEmail(
   to: string,
   subject: string,
   html: string,
   replyTo?: string,
 ): Promise<SendResult> {
-  // Prefer SMTP when configured (typical VPS / Gmail setup)
-  if (process.env.SMTP_PASS) {
-    const smtp = await sendViaSmtp(to, subject, html, replyTo);
-    if (smtp.ok) return smtp;
+  const hasResend =
+    Boolean(process.env.RESEND_API_KEY) &&
+    Boolean(process.env.RESEND_FROM_EMAIL);
+  const hasSmtp = Boolean(process.env.SMTP_PASS);
+
+  // Prefer Resend on VPS (HTTPS). Gmail SMTP is often blocked on port 587.
+  if (hasResend) {
     const resend = await sendViaResend(to, subject, html, replyTo);
     if (resend.ok) return resend;
+    if (hasSmtp) {
+      const smtp = await sendViaSmtp(to, subject, html, replyTo);
+      if (smtp.ok) return smtp;
+      return {
+        ok: false,
+        error: friendlyEmailError(
+          `${resend.error ?? "Resend failed"}; ${smtp.error ?? "SMTP failed"}`,
+        ),
+      };
+    }
     return {
       ok: false,
-      error: friendlySmtpError(smtp.error ?? "SMTP failed"),
+      error: friendlyEmailError(resend.error ?? "Resend failed"),
     };
   }
 
-  const resend = await sendViaResend(to, subject, html, replyTo);
-  if (resend.ok) return resend;
+  if (hasSmtp) {
+    const smtp = await sendViaSmtp(to, subject, html, replyTo);
+    if (smtp.ok) return smtp;
+    return {
+      ok: false,
+      error: friendlyEmailError(smtp.error ?? "SMTP failed"),
+    };
+  }
 
-  const smtp = await sendViaSmtp(to, subject, html, replyTo);
-  if (smtp.ok) return smtp;
-
-  return {
-    ok: false,
-    error: `No email provider available (${resend.error}; ${smtp.error})`,
-  };
+  return { ok: false, error: "Email is not configured on the server." };
 }
 
 export async function notifyAdminOfLead(lead: LeadPayload) {
