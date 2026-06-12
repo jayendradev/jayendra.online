@@ -1,6 +1,7 @@
 import dns from "node:dns";
 import { site } from "@/lib/site";
 import nodemailer from "nodemailer";
+import type SMTPTransport from "nodemailer/lib/smtp-transport";
 import { Resend } from "resend";
 
 // VPS often has broken IPv6; Gmail SMTP must use IPv4
@@ -96,11 +97,17 @@ async function sendViaSmtp(
     port,
     secure: port === 465,
     auth: { user, pass },
-    family: 4,
-    connectionTimeout: 15_000,
-    greetingTimeout: 15_000,
-    socketTimeout: 20_000,
-  });
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
+    socketTimeout: 20000,
+    lookup: (
+      hostname: string,
+      _options: dns.LookupOptions,
+      callback: (err: NodeJS.ErrnoException | null, address: string, family: number) => void,
+    ) => {
+      dns.lookup(hostname, { family: 4 }, callback);
+    },
+  } as SMTPTransport.Options);
 
   try {
     await transporter.sendMail({

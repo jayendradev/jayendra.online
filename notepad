@@ -7,6 +7,12 @@ CREATE USER jayendraonlineuser WITH PASSWORD 'myjayendraonline2019';
 grant all privileges on database jayendraonline to jayendraonlineuser ;
 ALTER DATABASE jayendraonline OWNER TO jayendraonlineuser;
 
+ssh root@159.223.197.194 -i ~/webkey
+
+
+cd /root/jayendra.online
+npm run build
+systemctl restart jayendra-online
 
 jayendra.online — same way (systemd)
 A service file is in your repo: deploy/jayendra-online.service
