@@ -1,6 +1,10 @@
+import dns from "node:dns";
 import { site } from "@/lib/site";
 import nodemailer from "nodemailer";
 import { Resend } from "resend";
+
+// VPS often has broken IPv6; Gmail SMTP must use IPv4
+dns.setDefaultResultOrder("ipv4first");
 
 export type LeadPayload = {
   name: string;
@@ -92,6 +96,10 @@ async function sendViaSmtp(
     port,
     secure: port === 465,
     auth: { user, pass },
+    family: 4,
+    connectionTimeout: 15_000,
+    greetingTimeout: 15_000,
+    socketTimeout: 20_000,
   });
 
   try {
@@ -112,6 +120,9 @@ async function sendViaSmtp(
 function friendlySmtpError(message: string) {
   if (message.includes("Application-specific password required")) {
     return "Gmail needs an App Password in SMTP_PASS (not your normal Gmail password).";
+  }
+  if (message.includes("ENETUNREACH") && message.includes("2607:")) {
+    return "SMTP could not reach Gmail (IPv6 network unreachable on server). Retry after deploy or set NODE_OPTIONS=--dns-result-order=ipv4first on the service.";
   }
   return message;
 }

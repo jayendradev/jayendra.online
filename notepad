@@ -11,6 +11,27 @@ ALTER DATABASE jayendraonline OWNER TO jayendraonlineuser;
 jayendra.online — same way (systemd)
 A service file is in your repo: deploy/jayendra-online.service
 
+
+
+un on your laptop (WSL or terminal), not on the VPS:
+
+scp root@159.223.197.194:/root/jayendra.online/.env.local ~/jayendra.online/.env.local
+Or with your SSH user if not root:
+
+scp user@159.223.197.194:/root/jayendra.online/.env.local ./.env.local
+Upload from PC → server
+Run on your laptop:
+
+scp ~/jayendra.online/.env.local root@159.223.197.194:/root/jayendra.online/.env.local
+Then on the server:
+
+systemctl restart jayendra-online
+Edit directly on the server (no upload)
+nano /root/jayendra.online/.env.local
+Save: Ctrl+O, Enter, Ctrl+X, then:
+
+systemctl restart jayendra-online
+
 1. On VPS — build first
 cd /home/secureuser/jayendra.online
 npm ci
