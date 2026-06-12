@@ -133,4 +133,7 @@ export const rootMetadata: Metadata = {
     images: [defaultOgImage.url],
   },
   category: "technology",
+  verification: {
+    google: "obln3DtLRLMD2Fhd9q2i9n3gVdZbo1bTvj5oTa1V3Tg",
+  },
 };

@@ -8,6 +8,8 @@ grant all privileges on database jayendraonline to jayendraonlineuser ;
 ALTER DATABASE jayendraonline OWNER TO jayendraonlineuser;
 
 ssh root@159.223.197.194 -i ~/webkey
+https://resend.com/
+for SMTP port
 
 
 cd /root/jayendra.online
