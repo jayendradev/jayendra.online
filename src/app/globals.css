@@ -1,26 +1,300 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b0e13;
+  --foreground: #eef1f6;
+  --foreground-secondary: #c8ced8;
+  --muted: #a3adbe;
+  --border: #2a3444;
+  --surface: #12171f;
+  --surface-elevated: #171e28;
+  --accent: #38bdf8;
+  --accent-foreground: #0b0e13;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-foreground-secondary: var(--foreground-secondary);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* ── Motion (respects reduced-motion) ── */
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes glow-pulse {
+    0%,
+    100% {
+      opacity: 0.45;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.75;
+      transform: scale(1.06);
+    }
+  }
+
+  @keyframes grid-drift {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 48px 48px;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% center;
+    }
+    100% {
+      background-position: 200% center;
+    }
+  }
+
+  @keyframes border-glow {
+    0%,
+    100% {
+      border-color: color-mix(in srgb, var(--accent) 25%, var(--border));
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 0%, transparent);
+    }
+    50% {
+      border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+      box-shadow: 0 0 32px -8px color-mix(in srgb, var(--accent) 35%, transparent);
+    }
+  }
+
+  .animate-hero-in {
+    animation: fade-in-up 0.7s ease-out both;
+  }
+
+  .animate-hero-in-delay-1 {
+    animation: fade-in-up 0.7s ease-out 0.1s both;
+  }
+
+  .animate-hero-in-delay-2 {
+    animation: fade-in-up 0.7s ease-out 0.2s both;
+  }
+
+  .animate-hero-in-delay-3 {
+    animation: fade-in-up 0.7s ease-out 0.3s both;
+  }
+
+  .animate-hero-in-delay-4 {
+    animation: fade-in-up 0.7s ease-out 0.4s both;
+  }
+
+  .animate-header-in {
+    animation: slide-down 0.5s ease-out both;
+  }
+
+  .animate-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--delay, 0ms);
+  }
+
+  .animate-in.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .hero-grid {
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--accent) 7%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 7%, transparent) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 75%);
+    animation: grid-drift 24s linear infinite;
+  }
+
+  .hero-orb {
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%);
+    filter: blur(48px);
+    animation: glow-pulse 8s ease-in-out infinite;
+  }
+
+  .hero-orb-2 {
+    animation-delay: -3s;
+  }
+
+  .hero-orb-3 {
+    animation-delay: -5s;
+    opacity: 0.6;
+  }
+
+  .card-hover {
+    transition:
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      background-color 0.3s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px -12px color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+
+  .btn-shimmer {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .btn-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      color-mix(in srgb, white 18%, transparent) 50%,
+      transparent 60%
+    );
+    background-size: 200% 100%;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .btn-shimmer:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 28px -4px color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+
+  .btn-shimmer:hover::after {
+    opacity: 1;
+    animation: shimmer 1.2s ease-in-out;
+  }
+
+  .cta-glow {
+    animation: border-glow 4s ease-in-out infinite;
+  }
+
+  .trust-card {
+    transition:
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease,
+      background-color 0.3s ease;
+  }
+
+  .trust-card:hover {
+    transform: translateX(4px);
+    border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  }
+
+  @keyframes nav-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .nav-link-in {
+    animation: nav-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--nav-delay, 0ms);
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .nav-link:hover::after,
+  .nav-link-active::after {
+    transform: scaleX(1);
+  }
+
+  .nav-link-active {
+    font-weight: 500;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-in,
+  .nav-link-in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
 }

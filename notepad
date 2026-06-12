@@ -1,0 +1,57 @@
+https://dashboard.tawk.to/#/chat
+
+DROP DATABASE jayendraonline;
+DROP USER jayendraonlineuser;
+CREATE DATABASE jayendraonline;
+CREATE USER jayendraonlineuser WITH PASSWORD 'myjayendraonline2019';
+grant all privileges on database jayendraonline to jayendraonlineuser ;
+ALTER DATABASE jayendraonline OWNER TO jayendraonlineuser;
+
+
+jayendra.online — same way (systemd)
+A service file is in your repo: deploy/jayendra-online.service
+
+1. On VPS — build first
+cd /home/secureuser/jayendra.online
+npm ci
+npm run build
+2. Install the service
+sudo cp deploy/jayendra-online.service /etc/systemd/system/jayendra-online.service
+sudo nano /etc/systemd/system/jayendra-online.service   # fix User + paths if needed
+sudo systemctl daemon-reload
+sudo systemctl enable --now jayendra-online
+3. Daily commands (like BriefWire)
+Action	Command
+Start
+sudo systemctl start jayendra-online
+Stop
+sudo systemctl stop jayendra-online
+Restart (after deploy)
+sudo systemctl restart jayendra-online
+Status
+sudo systemctl status jayendra-online
+Logs
+sudo journalctl -u jayendra-online -f
+4. After code update
+cd /home/secureuser/jayendra.online
+git pull
+npm ci
+npm run build
+sudo systemctl restart jayendra-online
+Nginx
+Point jayendra.online to http://127.0.0.1:3000 (same as BriefWire frontend). Use a different port only if BriefWire already uses 3000 on the same VPS — e.g. jayendra on 3001 and set Environment="PORT=3001" in the service file.
+
+systemd vs PM2
+systemd (BriefWire)	PM2
+Starts on reboot
+Yes (enable)
+Yes (pm2 startup)
+Logs
+journalctl
+pm2 logs
+Fits your VPS
+Already using it
+Extra tool
+Summary: Use systemctl for jayendra.online, same as BriefWire — no PM2 needed.
+
+Edit paths in deploy/jayendra-online.service if your user folder isn’t /home/secureuser/.

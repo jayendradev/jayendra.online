@@ -1,0 +1,41 @@
+# Next.js — jayendra.online
+#
+# Install on server:
+#   sudo cp deploy/jayendra-online.service /etc/systemd/system/jayendra-online.service
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now jayendra-online
+#
+# Build before first start / after deploy:
+#   cd /home/secureuser/jayendra.online && npm ci && npm run build
+#
+# Edit User, paths, and node PATH for your VPS before installing.
+
+[Unit]
+Description=Next.js for jayendra.online
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=secureuser
+Group=www-data
+WorkingDirectory=/home/secureuser/jayendra.online
+
+Environment="NODE_ENV=production"
+Environment="PORT=3000"
+EnvironmentFile=-/home/secureuser/jayendra.online/.env.local
+Environment="PATH=/home/secureuser/.nvm/versions/node/v20.20.2/bin:/usr/local/bin:/usr/bin:/bin"
+
+ExecStart=/home/secureuser/.nvm/versions/node/v20.20.2/bin/npm run start
+
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+LimitNOFILE=65536
+MemoryMax=1200M
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=jayendra-online
+
+[Install]
+WantedBy=multi-user.target
