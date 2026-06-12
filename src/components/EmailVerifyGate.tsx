@@ -7,6 +7,7 @@ import {
   saveEmailHistory,
   type EmailHistoryEntry,
 } from "@/lib/client-email-history";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 type User = {
@@ -30,6 +31,8 @@ export function EmailVerifyGate({ onVerified }: Props) {
   const [needsName, setNeedsName] = useState(false);
   const [info, setInfo] = useState("");
   const [error, setError] = useState("");
+  const [errorCode, setErrorCode] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
   const [history, setHistory] = useState<EmailHistoryEntry[]>([]);
@@ -104,6 +107,8 @@ export function EmailVerifyGate({ onVerified }: Props) {
   async function requestCode() {
     setLoading(true);
     setError("");
+    setErrorCode("");
+    setContactEmail("");
 
     const res = await fetch("/api/auth/otp/request", {
       method: "POST",
@@ -114,11 +119,15 @@ export function EmailVerifyGate({ onVerified }: Props) {
       message?: string;
       error?: string;
       needsName?: boolean;
+      code?: string;
+      contactEmail?: string;
     };
 
     if (!res.ok) {
       if (data.needsName) setNeedsName(true);
       setError(data.error ?? "Could not send code.");
+      setErrorCode(data.code ?? "");
+      setContactEmail(data.contactEmail ?? "");
       setLoading(false);
       return;
     }
@@ -275,9 +284,23 @@ export function EmailVerifyGate({ onVerified }: Props) {
 
         {info ? <p className="text-sm text-accent">{info}</p> : null}
         {error ? (
-          <p className="text-sm text-red-400" role="alert">
-            {error}
-          </p>
+          <div className="space-y-2" role="alert">
+            <p className="text-sm text-red-400">{error}</p>
+            {errorCode === "delivery_limited" && contactEmail ? (
+              <p className="text-sm text-foreground-secondary">
+                <Link href="/contact" className="text-accent underline">
+                  Contact page
+                </Link>
+                {" · "}
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="text-accent underline"
+                >
+                  {contactEmail}
+                </a>
+              </p>
+            ) : null}
+          </div>
         ) : null}
 
         <button

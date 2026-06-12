@@ -14,7 +14,9 @@ export type LeadPayload = {
   message: string;
 };
 
-type SendResult = { ok: true; provider: string } | { ok: false; error: string };
+type SendResult =
+  | { ok: true; provider: string }
+  | { ok: false; error: string; code?: "delivery_limited" | "not_configured" };
 
 function adminSubject(lead: LeadPayload) {
   return `New lead — ${lead.name} · ${site.domain}`;
@@ -134,15 +136,24 @@ function friendlySmtpError(message: string) {
   return message;
 }
 
-function friendlyEmailError(message: string) {
+function friendlyEmailError(message: string): {
+  error: string;
+  code?: "delivery_limited" | "not_configured";
+} {
   if (message.includes("only send testing emails to your own email address")) {
-    return "We could not send a code to this email yet. Please use the site owner email for now, or try again after domain email is fully set up.";
+    return {
+      error: `We couldn't send a verification code to this email yet. Use the contact page or email ${site.email} and we'll help you get started.`,
+      code: "delivery_limited",
+    };
   }
   if (message.startsWith("No email provider available (")) {
     const inner = message.slice("No email provider available (".length, -1);
     return friendlyEmailError(inner.split(";")[0]?.trim() ?? message);
   }
-  return friendlySmtpError(message);
+  if (message === "Email is not configured on the server.") {
+    return { error: message, code: "not_configured" };
+  }
+  return { error: friendlySmtpError(message) };
 }
 
 async function sendEmail(
@@ -163,29 +174,27 @@ async function sendEmail(
     if (hasSmtp) {
       const smtp = await sendViaSmtp(to, subject, html, replyTo);
       if (smtp.ok) return smtp;
-      return {
-        ok: false,
-        error: friendlyEmailError(
-          `${resend.error ?? "Resend failed"}; ${smtp.error ?? "SMTP failed"}`,
-        ),
-      };
+      const friendly = friendlyEmailError(
+        `${resend.error ?? "Resend failed"}; ${smtp.error ?? "SMTP failed"}`,
+      );
+      return { ok: false, ...friendly };
     }
-    return {
-      ok: false,
-      error: friendlyEmailError(resend.error ?? "Resend failed"),
-    };
+    const friendly = friendlyEmailError(resend.error ?? "Resend failed");
+    return { ok: false, ...friendly };
   }
 
   if (hasSmtp) {
     const smtp = await sendViaSmtp(to, subject, html, replyTo);
     if (smtp.ok) return smtp;
-    return {
-      ok: false,
-      error: friendlyEmailError(smtp.error ?? "SMTP failed"),
-    };
+    const friendly = friendlyEmailError(smtp.error ?? "SMTP failed");
+    return { ok: false, ...friendly };
   }
 
-  return { ok: false, error: "Email is not configured on the server." };
+  return {
+    ok: false,
+    error: "Email is not configured on the server.",
+    code: "not_configured",
+  };
 }
 
 export async function notifyAdminOfLead(lead: LeadPayload) {

@@ -3,6 +3,7 @@ import {
   generateOtpCode,
   saveLoginOtp,
 } from "@/lib/messaging-db";
+import { site } from "@/lib/site";
 import { sendLoginOtpEmail } from "@/lib/notify";
 import { NextResponse } from "next/server";
 
@@ -45,7 +46,9 @@ export async function POST(request: Request) {
         {
           error:
             sent.error ??
-            "Could not send login code. Fix SMTP settings in .env.local.",
+            "Could not send login code. Fix email settings in .env.local.",
+          code: sent.code,
+          contactEmail: site.email,
         },
         { status: 503 },
       );
