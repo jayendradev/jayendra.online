@@ -78,7 +78,7 @@ Admin account is created automatically from `ADMIN_EMAIL` + `ADMIN_PASSWORD` on 
 
 ```env
 RESEND_API_KEY=re_...
-RESEND_FROM_EMAIL=onboarding@resend.dev   # or mail@yourdomain.com after domain verify
+RESEND_FROM_EMAIL=contact@jayendra.online
 CONTACT_EMAIL=contact@jayendra.online
 ```
 
