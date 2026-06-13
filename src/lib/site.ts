@@ -14,7 +14,7 @@ export const site = {
     "Practical web tools for founders, publishers, Shopify store owners, schools, and small businesses — built with clean code, real features, and proper deployment.",
   availability: "Available for freelance projects",
   footerTagline: "Production web apps — not mockups.",
-  email: process.env.CONTACT_EMAIL ?? "jayendra.dev.in@gmail.com",
+  email: process.env.CONTACT_EMAIL ?? "contact@jayendra.online",
   location: "India (IST)",
   timezone: "Asia/Kolkata",
   replyTime: "Usually replies within 24–48 hours",

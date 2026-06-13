@@ -66,7 +66,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ```env
 AUTH_SECRET=use-a-long-random-string-here
-ADMIN_EMAIL=jayendra.dev.in@gmail.com
+ADMIN_EMAIL=contact@jayendra.online
 ADMIN_PASSWORD=your-strong-admin-password
 ```
 
@@ -79,7 +79,7 @@ Admin account is created automatically from `ADMIN_EMAIL` + `ADMIN_PASSWORD` on 
 ```env
 RESEND_API_KEY=re_...
 RESEND_FROM_EMAIL=onboarding@resend.dev   # or mail@yourdomain.com after domain verify
-CONTACT_EMAIL=jayendra.dev.in@gmail.com
+CONTACT_EMAIL=contact@jayendra.online
 ```
 
 **Gmail SMTP (fallback)** — used if Resend is not configured:
@@ -87,10 +87,10 @@ CONTACT_EMAIL=jayendra.dev.in@gmail.com
 ```env
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=jayendra.dev.in@gmail.com
+SMTP_USER=contact@jayendra.online
 SMTP_PASS=your-google-app-password
-SMTP_FROM=jayendra.dev.in@gmail.com
-CONTACT_EMAIL=jayendra.dev.in@gmail.com
+SMTP_FROM=contact@jayendra.online
+CONTACT_EMAIL=contact@jayendra.online
 ```
 
 Create a Google [App Password](https://myaccount.google.com/apppasswords) (2FA required).
