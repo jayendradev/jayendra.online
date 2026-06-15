@@ -7,36 +7,20 @@ export function RegisterPwa() {
     if (!("serviceWorker" in navigator)) return;
     if (process.env.NODE_ENV !== "production") return;
 
-    let reloaded = false;
+    async function refreshServiceWorker() {
+      if ("caches" in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map((key) => caches.delete(key)));
+      }
 
-    navigator.serviceWorker
-      .register("/sw.js", { updateViaCache: "none" })
-      .then((registration) => {
-        registration.update();
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map((registration) => registration.unregister()));
 
-        if (registration.waiting) {
-          registration.waiting.postMessage({ type: "SKIP_WAITING" });
-        }
+      await navigator.serviceWorker.register("/sw-v4.js", { updateViaCache: "none" });
+    }
 
-        registration.addEventListener("updatefound", () => {
-          const worker = registration.installing;
-          if (!worker) return;
-
-          worker.addEventListener("statechange", () => {
-            if (worker.state === "installed" && navigator.serviceWorker.controller) {
-              worker.postMessage({ type: "SKIP_WAITING" });
-            }
-          });
-        });
-      })
-      .catch(() => {
-        /* optional PWA — ignore registration errors */
-      });
-
-    navigator.serviceWorker.addEventListener("controllerchange", () => {
-      if (reloaded) return;
-      reloaded = true;
-      window.location.reload();
+    refreshServiceWorker().catch(() => {
+      /* optional PWA — ignore registration errors */
     });
   }, []);
 
