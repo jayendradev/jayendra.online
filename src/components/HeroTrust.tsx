@@ -14,6 +14,11 @@ const items = [
     detail:
       "You work directly with me — clear scope, regular updates, and practical solutions.",
   },
+  {
+    title: "VPS, fixes & maintenance",
+    detail:
+      "Server setup, deployment, SSL, bug fixes, database issues, updates, backups, monitoring, and ongoing support.",
+  },
 ] as const;
 
 export function HeroTrust() {

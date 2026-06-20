@@ -1,4 +1,5 @@
 import { AttachmentEmailNote } from "@/components/AttachmentEmailNote";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { CtaButton } from "@/components/CtaButton";
 import { PageHeader } from "@/components/PageHeader";
 import { createPageMetadata } from "@/lib/seo";
@@ -7,13 +8,19 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Contact",
-  description: `Hire ${site.name} for Shopify apps, Django/Next.js projects, and deployment. ${site.replyTime}. Based in ${site.location}.`,
+  description: `Hire ${site.name} for Shopify apps, Django, FastAPI, Golang, and Next.js projects. VPS deployment, bug fixes, and maintenance. ${site.replyTime}. Based in ${site.location}.`,
   path: "/contact",
 });
 
 export default function ContactPage() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "" },
+          { name: "Contact", path: "/contact" },
+        ]}
+      />
       <PageHeader
         title="Contact"
         description="Enter your email, verify with a code, and send your message — or email directly."

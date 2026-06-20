@@ -3,26 +3,38 @@ import { site } from "@/lib/site";
 
 export const siteOrigin = `https://${site.domain}`;
 
+export const siteDescription = `${site.tagline} ${site.subtagline}`;
+
 export const seoKeywords = [
   "Shopify app developer",
   "Shopify developer India",
   "Python Django developer",
+  "FastAPI developer",
+  "Golang developer",
   "React Next.js developer",
   "freelance full stack developer",
+  "freelance web developer India",
   "Shopify app development",
   "Django web development",
-  "Next.js portfolio",
+  "FastAPI development",
+  "Next.js developer India",
   "REST API development",
   "VPS deployment",
   "ecommerce developer",
+  "PostgreSQL developer",
+  "admin dashboard developer",
+  "website bug fixes",
+  "website maintenance",
+  "full stack developer India",
   "Jayendra developer",
+  "jayendra.online",
 ] as const;
 
 export const defaultOgImage = {
-  url: "/icons/icon-512.png",
-  width: 512,
-  height: 512,
-  alt: `${site.name} — ${site.role}`,
+  url: "/opengraph-image",
+  width: 1200,
+  height: 630,
+  alt: `${site.name} — Shopify App Developer, Django, FastAPI, Golang & Next.js`,
 };
 
 export function siteUrl(path = ""): string {
@@ -77,7 +89,7 @@ export const rootMetadata: Metadata = {
     default: `${site.name} | ${site.title}`,
     template: `%s · ${site.name}`,
   },
-  description: site.tagline,
+  description: siteDescription,
   keywords: [...seoKeywords],
   authors: [{ name: site.name, url: siteOrigin }],
   creator: site.name,
@@ -116,10 +128,13 @@ export const rootMetadata: Metadata = {
   },
   alternates: {
     canonical: siteOrigin,
+    languages: {
+      "en-IN": siteOrigin,
+    },
   },
   openGraph: {
     title: `${site.name} | ${site.title}`,
-    description: site.tagline,
+    description: siteDescription,
     url: siteOrigin,
     siteName: site.domain,
     locale: "en_IN",
@@ -129,7 +144,7 @@ export const rootMetadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: `${site.name} | ${site.title}`,
-    description: site.tagline,
+    description: siteDescription,
     images: [defaultOgImage.url],
   },
   category: "technology",

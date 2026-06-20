@@ -1,9 +1,11 @@
 import { siteUrl } from "@/lib/seo";
+import { serviceOfferings } from "@/lib/service-offerings";
 import { site } from "@/lib/site";
 
 export function JsonLd() {
   const personId = `${siteUrl()}#person`;
   const websiteId = `${siteUrl()}#website`;
+  const businessId = `${siteUrl()}#business`;
 
   const sameAs = [site.linkedInUrl].filter(Boolean) as string[];
 
@@ -16,7 +18,8 @@ export function JsonLd() {
         name: site.name,
         url: siteUrl(),
         email: site.email,
-        jobTitle: "Shopify App Developer",
+        image: siteUrl("/team.png"),
+        jobTitle: "Shopify App & Full-Stack Web Developer",
         description: site.tagline,
         address: {
           "@type": "PostalAddress",
@@ -27,11 +30,15 @@ export function JsonLd() {
           "Shopify Apps",
           "Python",
           "Django",
+          "FastAPI",
+          "Golang",
           "React",
           "Next.js",
           "REST APIs",
           "PostgreSQL",
+          "VPS Deployment",
           "Web Development",
+          "SEO",
         ],
         ...(sameAs.length > 0 ? { sameAs } : {}),
       },
@@ -40,17 +47,18 @@ export function JsonLd() {
         "@id": websiteId,
         name: site.domain,
         url: siteUrl(),
-        description: site.tagline,
+        description: `${site.tagline} ${site.subtagline}`,
         inLanguage: "en-IN",
         publisher: { "@id": personId },
       },
       {
         "@type": "ProfessionalService",
-        "@id": `${siteUrl()}#business`,
-        name: site.domain,
+        "@id": businessId,
+        name: `${site.name} — ${site.domain}`,
         url: siteUrl(),
-        description: site.tagline,
+        description: `${site.tagline} ${site.subtagline}`,
         email: site.email,
+        image: siteUrl("/opengraph-image"),
         areaServed: "Worldwide",
         address: {
           "@type": "PostalAddress",
@@ -59,11 +67,33 @@ export function JsonLd() {
         founder: { "@id": personId },
         serviceType: [
           "Shopify App Development",
+          "Shopify Store Development",
           "Django Development",
+          "FastAPI Development",
+          "Golang Development",
           "Next.js Development",
+          "React Development",
           "API Development",
+          "Admin Dashboard Development",
           "VPS Deployment",
+          "Website Maintenance",
+          "Performance Optimization",
+          "SEO Improvements",
         ],
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Web Development Services",
+          itemListElement: serviceOfferings.map((service, index) => ({
+            "@type": "Offer",
+            position: index + 1,
+            itemOffered: {
+              "@type": "Service",
+              name: service.title,
+              description: service.description,
+              provider: { "@id": businessId },
+            },
+          })),
+        },
       },
     ],
   };

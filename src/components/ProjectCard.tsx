@@ -8,7 +8,10 @@ const previewTone: Record<string, string> = {
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="card-hover group flex flex-col rounded-2xl border border-border bg-surface p-6 hover:border-accent/40 hover:bg-surface-elevated">
+    <article
+      id={project.slug}
+      className="card-hover group flex flex-col rounded-2xl border border-border bg-surface p-6 hover:border-accent/40 hover:bg-surface-elevated"
+    >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h3 className="text-xl font-semibold text-foreground">{project.name}</h3>

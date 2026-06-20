@@ -1,4 +1,5 @@
 import { AnimateIn } from "@/components/AnimateIn";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { PageHeader } from "@/components/PageHeader";
 import { ServiceCard } from "@/components/ServiceCard";
 import { CtaButton } from "@/components/CtaButton";
@@ -10,13 +11,19 @@ import type { Metadata } from "next";
 export const metadata: Metadata = createPageMetadata({
   title: "Services",
   description:
-    "Shopify app development, Django/Next.js web apps, REST APIs, VPS deployment, and automation for founders, store owners, and small businesses.",
+    "Shopify apps, Django, FastAPI, Golang, and Next.js development. VPS deployment, admin dashboards, bug fixes, API integration, maintenance, and SEO for businesses.",
   path: "/services",
 });
 
 export default function ServicesPage() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "" },
+          { name: "Services", path: "/services" },
+        ]}
+      />
       <PageHeader
         title="Services"
         description="Shopify, Django/Next.js, deployment, and automation — clear scope for store owners, founders, and small businesses."

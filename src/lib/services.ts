@@ -20,7 +20,7 @@ export const services: Service[] = [
   {
     title: "Django / Next.js Development",
     description:
-      "Business portals, news sites, and full-stack apps with real auth and data.",
+      "Business portals, news sites, and full-stack apps with Django, FastAPI, Golang, auth, and PostgreSQL.",
     outcomes: [
       "Business portals",
       "News websites",

@@ -5,35 +5,16 @@ import { CtaBand } from "@/components/CtaBand";
 import { CtaButton } from "@/components/CtaButton";
 import { HeroBackground } from "@/components/HeroBackground";
 import { HeroTrust } from "@/components/HeroTrust";
-import { createPageMetadata } from "@/lib/seo";
+import { createPageMetadata, siteDescription } from "@/lib/seo";
+import { serviceOfferings } from "@/lib/service-offerings";
 import { site, primaryCta } from "@/lib/site";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = createPageMetadata({
   title: `${site.name} | ${site.title}`,
-  description: `${site.tagline} ${site.subtagline}`,
+  description: siteDescription,
   path: "",
 });
-
-const clientCards = [
-  {
-    who: "Founders",
-    thought: "Real products shipped, not tutorial clones.",
-  },
-  {
-    who: "Store owners",
-    thought: "Shopify apps, AI tools, product catalogs, SEO, and automation.",
-  },
-  {
-    who: "Schools & businesses",
-    thought: "Private portals, dashboards, admin panels, and business systems.",
-  },
-  {
-    who: "Publishers",
-    thought:
-      "BriefWire shows experience building and running a live news/media platform.",
-  },
-] as const;
 
 export default function HomePage() {
   return (
@@ -46,13 +27,16 @@ export default function HomePage() {
               <div className="animate-hero-in">
                 <Avatar size="md" />
               </div>
-              <h1 className="animate-hero-in-delay-1 mt-4 text-sm font-medium text-foreground-secondary">
+              <p className="animate-hero-in-delay-1 mt-4 text-sm font-medium text-accent">
                 {site.role}
+              </p>
+              <h1 className="animate-hero-in-delay-2 mt-3 max-w-2xl text-2xl font-semibold leading-snug tracking-tight text-foreground sm:text-3xl sm:leading-tight lg:text-4xl">
+                {site.name} — {site.seoHeadline}
               </h1>
-              <div className="animate-hero-in-delay-1 mt-3">
+              <div className="animate-hero-in-delay-2 mt-3">
                 <AvailabilityBadge />
               </div>
-              <h2 className="animate-hero-in-delay-2 mt-5 max-w-2xl text-xl font-semibold leading-snug tracking-tight text-foreground sm:text-2xl sm:leading-tight lg:text-3xl">
+              <h2 className="animate-hero-in-delay-3 mt-5 max-w-2xl text-lg font-medium leading-relaxed text-foreground-secondary sm:text-xl">
                 {site.tagline}
               </h2>
               <p className="animate-hero-in-delay-3 mt-4 max-w-2xl text-xs leading-relaxed text-foreground-secondary sm:text-sm">
@@ -81,22 +65,28 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-t border-border/60 bg-surface/40">
+      <section
+        className="border-t border-border/60 bg-surface/40"
+        aria-labelledby="services-heading"
+      >
         <div className="mx-auto max-w-6xl px-5 py-16 sm:py-20">
           <AnimateIn>
-            <h2 className="text-2xl font-semibold text-foreground">
-              Built for clients like you
+            <h2
+              id="services-heading"
+              className="text-2xl font-semibold text-foreground"
+            >
+              Services
             </h2>
           </AnimateIn>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {clientCards.map((item, index) => (
-              <AnimateIn key={item.who} delay={index * 80}>
-                <div className="card-hover h-full rounded-xl border border-border bg-background p-5 hover:border-accent/30">
-                  <p className="font-medium text-foreground">{item.who}</p>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {serviceOfferings.map((item, index) => (
+              <AnimateIn key={item.title} delay={index * 80}>
+                <article className="card-hover h-full rounded-xl border border-border bg-background p-5 hover:border-accent/30">
+                  <h3 className="font-medium text-foreground">{item.title}</h3>
                   <p className="mt-2 text-sm text-foreground-secondary">
-                    {item.thought}
+                    {item.description}
                   </p>
-                </div>
+                </article>
               </AnimateIn>
             ))}
           </div>

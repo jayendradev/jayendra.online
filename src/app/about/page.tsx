@@ -1,4 +1,5 @@
 import { Avatar } from "@/components/Avatar";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { CtaButton } from "@/components/CtaButton";
 import { createPageMetadata } from "@/lib/seo";
 import { primaryCta, site } from "@/lib/site";
@@ -6,7 +7,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = createPageMetadata({
   title: "About",
-  description: `About ${site.name}: ${site.role} based in ${site.location}. Shopify apps, Django backends, React/Next.js frontends, and production deployment.`,
+  description: `About ${site.name}: ${site.role} based in ${site.location}. Shopify apps, Django, FastAPI, Golang backends, React/Next.js frontends, VPS deployment, and production support.`,
   path: "/about",
 });
 
@@ -15,6 +16,8 @@ const skills = [
   "Shopify Apps",
   "Python",
   "Django",
+  "FastAPI",
+  "Golang",
   "JavaScript",
   "React.js",
   "Next.js",
@@ -28,6 +31,12 @@ const skills = [
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "" },
+          { name: "About", path: "/about" },
+        ]}
+      />
       <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
         <Avatar size="lg" />
         <div className="max-w-2xl">

@@ -1,6 +1,8 @@
 import { AnimateIn } from "@/components/AnimateIn";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { PageHeader } from "@/components/PageHeader";
 import { ProjectCard } from "@/components/ProjectCard";
+import { WorkJsonLd } from "@/components/WorkJsonLd";
 import { CtaButton } from "@/components/CtaButton";
 import { projects } from "@/lib/projects";
 import { createPageMetadata } from "@/lib/seo";
@@ -10,13 +12,20 @@ import type { Metadata } from "next";
 export const metadata: Metadata = createPageMetadata({
   title: "Work & Case Studies",
   description:
-    "Production case studies: TheBriefWire news platform, AI Shopify SEO App, and private ADMSS portal. Shopify, Django, Next.js, and live deployment.",
+    "Production case studies: TheBriefWire news platform, AI Shopify SEO App, and private ADMSS portal. Shopify, Django, FastAPI, Next.js, PostgreSQL, and live VPS deployment.",
   path: "/work",
 });
 
 export default function WorkPage() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "" },
+          { name: "Work", path: "/work" },
+        ]}
+      />
+      <WorkJsonLd />
       <PageHeader
         title="Work"
         description="Problem → what I built → stack → result. Live links where public; private work labeled NDA."
