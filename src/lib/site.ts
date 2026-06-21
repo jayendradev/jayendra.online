@@ -1,11 +1,11 @@
 export const site = {
-  name: "Jayendra",
+  name: "jayendra.online",
   fullName: "",
   shortName: "",
-  role: "Shopify App Developer | Django, FastAPI & Golang | React & Next.js",
+  role: "Shopify App Developer | Django, FastAPI & Golang | React & Next.js | AWS | VPS |",
   initials: "S",
   domain: "jayendra.online",
-  title: "Shopify App Developer | Django, FastAPI & Golang | React & Next.js",
+  title: "Shopify App Developer | Django, FastAPI & Golang | React & Next.js | AWS | VPS |",
   seoHeadline: "Shopify App & Full-Stack Web Developer",
   tagline:
     "Shopify Apps · Full-Stack Web Systems · Golang, FastAPI & Python/Django Backends · React & Next.js Frontends.",
