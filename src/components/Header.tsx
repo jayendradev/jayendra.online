@@ -10,7 +10,7 @@ export function Header() {
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-4 sm:h-16 sm:gap-6 sm:px-5">
         <Link
           href="/"
-          aria-label={`${site.name}.online — home`}
+          aria-label={`${site.domain} — home`}
           className="group flex min-w-0 max-w-[50%] items-center gap-2 rounded-xl border border-border/80 bg-surface/70 px-2 py-1 font-semibold tracking-tight text-foreground shadow-sm backdrop-blur-sm transition-all hover:border-accent/40 hover:bg-surface-elevated/90 hover:shadow-[0_0_20px_-12px_var(--color-accent)] sm:max-w-none sm:gap-2.5 sm:px-2.5 sm:py-1.5"
         >
           <span className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border/60 bg-background/80 sm:h-8 sm:w-8 sm:rounded-lg">

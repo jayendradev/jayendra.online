@@ -1,16 +1,18 @@
 export const site = {
   name: "jayendra.online",
-  fullName: "",
-  shortName: "",
-  role: "Shopify App Developer | Django, FastAPI & Golang | React & Next.js | AWS | VPS |",
-  initials: "S",
+  fullName: "Jayendra",
+  shortName: "Jayendra",
+  role:
+    "Shopify App Developer | Django, FastAPI & Golang | React & Next.js | AWS & VPS",
+  initials: "J",
   domain: "jayendra.online",
-  title: "Shopify App Developer | Django, FastAPI & Golang | React & Next.js | AWS | VPS |",
+  title:
+    "Shopify App Developer | Django, FastAPI, Golang & Next.js | AWS & VPS",
   seoHeadline: "Shopify App & Full-Stack Web Developer",
   tagline:
-    "Shopify Apps · Full-Stack Web Systems · Golang, FastAPI & Python/Django Backends · React & Next.js Frontends.",
+    "Shopify Apps · Full-Stack Web Systems · Golang, FastAPI & Python/Django Backends · React & Next.js Frontends · AWS & VPS.",
   subtagline:
-    "REST APIs · RDBMS Databases · VPS Deployment · Production-Ready Software for Real Businesses",
+    "REST APIs · RDBMS Databases · AWS & VPS Deployment · Production-Ready Software for Real Businesses",
   heroDetail:
     "Practical web tools for founders, publishers, Shopify store owners, schools, and small businesses — built with clean code, real features, and proper deployment.",
   availability: "Available for freelance projects",

@@ -24,17 +24,14 @@ export default function Image() {
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
             fontSize: 58,
             fontWeight: 700,
             letterSpacing: "-0.03em",
             lineHeight: 1.1,
+            color: "#38bdf8",
           }}
         >
-          <span>
-            {site.name}
-            <span style={{ color: "#38bdf8" }}>.online</span>
-          </span>
+          {site.domain}
         </div>
         <div
           style={{
@@ -59,7 +56,7 @@ export default function Image() {
             lineHeight: 1.4,
           }}
         >
-          Golang, FastAPI & Python/Django · React & Next.js · VPS Deployment
+          Golang, FastAPI & Python/Django · React & Next.js · AWS & VPS
         </div>
         <div
           style={{
@@ -69,7 +66,7 @@ export default function Image() {
             color: "#38bdf8",
           }}
         >
-          {site.location} · {site.availability}
+          {`${site.location} · ${site.availability}`}
         </div>
       </div>
     ),

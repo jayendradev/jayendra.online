@@ -20,6 +20,8 @@ export const seoKeywords = [
   "Next.js developer India",
   "REST API development",
   "VPS deployment",
+  "AWS deployment",
+  "AWS developer",
   "ecommerce developer",
   "PostgreSQL developer",
   "admin dashboard developer",

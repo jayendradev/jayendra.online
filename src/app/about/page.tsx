@@ -23,6 +23,7 @@ const skills = [
   "Next.js",
   "REST APIs",
   "PostgreSQL",
+  "AWS",
   "VPS",
   "Web Portals",
   "Automation",
