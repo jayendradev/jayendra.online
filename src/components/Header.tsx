@@ -24,7 +24,7 @@ export function Header() {
             />
           </span>
           <span className="truncate pr-0.5 text-sm whitespace-nowrap sm:pr-1 sm:text-base">
-            {site.name}
+            {site.domain.replace(/\.online$/, "")}
             <span className="font-normal text-foreground-secondary group-hover:text-accent/80">
               .online
             </span>
